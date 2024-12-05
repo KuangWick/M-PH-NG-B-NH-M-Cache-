@@ -10,7 +10,7 @@
 // Số đường (ways) trong bộ đệm tập hợp liên kết (2 và 4 tương ứng).
 #define INSTRUCTION_WAYS 2            // 2-way set associative
 #define DATA_WAYS 4                   // 4-way set associative
- 
+
 
 //Các thao tác (Operation)
 enum Operation {
@@ -155,12 +155,17 @@ private:
     }
 };
 
+
+//Xử lý danh sách các thao tác trên bộ nhớ đệm.
+//Cập nhật trạng thái của các bộ nhớ đệm và hiển thị thông tin thống kê.
 void processTrace(Cache& dataCache, Cache& instructionCache, const std::vector<std::pair<int, uint32_t> >& trace, bool verbose) {
-    for (size_t i = 0; i < trace.size(); ++i) {
+    for (size_t i = 0; i < trace.size(); ++i) {                            //Duyệt qua danh sách thao tác: Sử dụng vòng lặp for để lặp qua tất cả các mục trong trace.
         int operation = trace[i].first;
         uint32_t address = trace[i].second;
 
         switch (operation) {
+              //Phân loại thao tác:
+        //Đọc (READ_DATA) hoặc ghi dữ liệu (WRITE_DATA):
             case READ_DATA:
             case WRITE_DATA:
                 dataCache.accessCache(address, operation == WRITE_DATA, verbose);
